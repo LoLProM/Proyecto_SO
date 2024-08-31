@@ -49,7 +49,7 @@ void menu(struct options *settings)
     addstr("                                                |_|                      \n");
 
     attron(COLOR_PAIR(5));
-    move(19,0);
+    move(19, 0);
     addstr("  ___         ___                 _           _                             _                   ___   ___ \n");
     addstr(" | __|       | _ )  ___   _ __   | |__     __| |  _ _   ___   _ __   _ __  (_)  _ _    __ _    | __| | _ \\ \n");
     addstr(" |__ \\  _    | _ \\ / _ \\ | '  \\  | '_ \\   / _` | | '_| / _ \\ | '_ \\ | '_ \\ | | | ' \\  / _` |   | _|  |   / \n");
@@ -57,7 +57,7 @@ void menu(struct options *settings)
     addstr("                                                             |_|    |_|               |___/               \n");
 
     attron(COLOR_PAIR(6));
-    move(24,0);
+    move(24, 0);
     addstr("  __         ___         _                           _             _     _                                        \n");
     addstr(" / /        | _ \\  ___  | |_   _  _   _ _   _ _     | |_   ___    | |_  | |_    ___     __ _   __ _   _ __    ___ \n");
     addstr("/ _ \\  _    |   / / -_) |  _| | || | | '_| | ' \\    |  _| / _ \\   |  _| | ' \\  / -_)   / _` | / _` | | '  \\  / -_)\n");
@@ -65,17 +65,17 @@ void menu(struct options *settings)
     addstr("                                                                                       |___/                     \n");
 
     attron(COLOR_PAIR(7));
-    move(29,0);
-    addstr(" ____         ___         _   _       _     _                            \n");           
-    addstr("|__  |       | __| __ __ (_) | |_    | |_  | |_    ___     __ _   __ _   _ __    __\n"); 
+    move(29, 0);
+    addstr(" ____         ___         _   _       _     _                            \n");
+    addstr("|__  |       | __| __ __ (_) | |_    | |_  | |_    ___     __ _   __ _   _ __    __\n");
     addstr("  / /   _    | _|  \\ \\ / | | |  _|   |  _| | ' \\  / -_)   / _` | / _` | | '  \\  / -_)\n");
     addstr(" /_/   (_)   |___| /_\\_\\ |_|  \\__|    \\__| |_||_| \\___|   \\__, | \\__,_| |_|_|_| \\___|\n");
-    addstr("                                                           |___/              \n");        
+    addstr("                                                           |___/              \n");
 
-    move(34,120);
+    move(34, 120);
     addstr("Enter your option: ");
 
-    move(4, 135); 
+    move(4, 135);
     addstr("                    .   ,- \n");
     move(5, 135);
     addstr("                   .'.\n");
@@ -128,11 +128,9 @@ void menu(struct options *settings)
     move(29, 135);
     addstr("       -.      d8P'      ,-'   \n");
     move(30, 135);
-    addstr("          -.,,_'__,,.-'\n");    
+    addstr("          -.,,_'__,,.-'\n");
 
     refresh();
-
-
 
     while (1)
     {
@@ -165,7 +163,7 @@ void menu(struct options *settings)
             }
             else
                 settings->overall = new;
-            
+
             move(34, 139);
             addstr("                                                ");
         }
@@ -192,7 +190,7 @@ void menu(struct options *settings)
             }
             else
                 settings->enemigo = new;
-            
+
             move(34, 139);
             addstr("                                                 ");
         }
@@ -272,7 +270,7 @@ void menu(struct options *settings)
             }
             else
                 settings->chanceBomba = new;
-            
+
             move(34, 139);
             addstr("                                                                 ");
         }
