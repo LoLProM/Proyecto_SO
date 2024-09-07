@@ -28,7 +28,7 @@ enemigo *enemy = NULL;
 enemigo *lastEnemy = NULL;
 struct bomba bomba[Max_BOMBAS];
 struct options options;
-static int input, loops = 0, win = -1, Disparos_Actuales = 0, Enemigos_Actuales = 30, Bombas_Actuales = 0, mi_random = 0, score = 0, naveVida = 3;
+static int input, loops = 0, win = -1, Disparos_Actuales = 0, Enemigos_Actuales = 5, Bombas_Actuales = 0, mi_random = 0, score = 0, naveVida = 3;
 static char tellscore[30];
 int enemy_count = 0;
 
@@ -249,8 +249,10 @@ void Add_enemy2()
 
     new_enemy->direccion = rand() % 2;
     new_enemy->y = 6;
-    if (x<=5) new_enemy->x = 7;
-    else new_enemy->x = x;
+    if (x <= 5)
+        new_enemy->x = 7;
+    else
+        new_enemy->x = x;
     new_enemy->vivo = 1;
     new_enemy->ch = Random_type();
     new_enemy->next = NULL;
@@ -324,7 +326,6 @@ void Delete_enemy(enemigo *delete)
         prev->next = current->next;
         free_memory(current, sizeof(enemigo)); // Liberar memoria usando free_memory()
     }
-
 }
 
 void free_enemys()
@@ -389,7 +390,7 @@ void initAudio()
         exit(1);
     }
 
-    sonido_Win = Mix_LoadMUS("arcade-game-winner.mp3");
+    sonido_Win = Mix_LoadWAV("arcade-game-winner.mp3");
 
     if (!sonido_Win)
     {
@@ -413,40 +414,32 @@ void clouseAudio()
     Mix_FreeChunk(sonido_disparo);
     Mix_FreeChunk(sonido_colision);
     Mix_FreeMusic(sonido_Fondo);
-    // Mix_FreeMusic(sonido_gameOver);
-    // Mix_FreeMusic(sonido_Win);
-    sonido_Fondo = NULL;
-    sonido_colision = NULL;
-    sonido_disparo = NULL;
-    sonido_Win = NULL;
-    sonido_gameOver = NULL;
+    Mix_FreeChunk(sonido_gameOver);
+    Mix_FreeChunk(sonido_Win);
     Mix_CloseAudio();
     SDL_Quit();
 }
 
 void playSoud_Game()
 {
-    if (Mix_PlayingMusic() == 0)
-    {
-        Mix_PlayMusic(sonido_Fondo, -1);
-    }
+    Mix_PlayMusic(sonido_Fondo, -1);
 }
 void playSoud_GameOver()
 {
-    Mix_PlayChannel(-1, sonido_gameOver, 0);
+    Mix_PlayChannel(1, sonido_gameOver, 0);
 }
 void playSoud_Win()
 {
-    Mix_PlayChannel(-1, sonido_Win, 0);
+    Mix_PlayChannel(2, sonido_Win, 0);
 }
 void playSoud_Shoot()
 {
-    Mix_PlayChannel(-1, sonido_disparo, 0);
+    Mix_PlayChannel(3, sonido_disparo, 0);
 }
 
 void playSoud_Impact()
 {
-    Mix_PlayChannel(-1, sonido_colision, 0);
+    Mix_PlayChannel(4, sonido_colision, 0);
 }
 
 //---------------------------------------------------------------------------------------------------------------------
