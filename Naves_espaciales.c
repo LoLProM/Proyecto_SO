@@ -45,14 +45,11 @@ pthread_t entrada_usuario_nave_thread, entrada_usuario_disparo_thread;
 // Hilos para enemigos
 pthread_t creacion_enemigo;
 
+// Musica
 Mix_Chunk *sonido_disparo;
-
 Mix_Chunk *sonido_colision;
-
-Mix_Chunk *sonido_Fondo;
-
+Mix_Music *sonido_Fondo;
 Mix_Chunk *sonido_Win;
-
 Mix_Chunk *sonido_gameOver;
 
 #define MEMORY_SIZE 1024 // Tamaño total de la memoria simulada
@@ -213,7 +210,7 @@ void *first_fit_allocate(int size)
         if (current->size >= size)
         {
             // Asignar memoria
-            void *allocated_memory = &memory[current->start]; //direccion de memoria
+            void *allocated_memory = &memory[current->start]; // direccion de memoria
 
             // Actualizar la lista de bloques libres
             current->start += size;
@@ -243,15 +240,17 @@ void *first_fit_allocate(int size)
 void Add_enemy2()
 {
     enemigo *new_enemy = (enemigo *)first_fit_allocate(sizeof(enemigo));
+    int x = rand() % (COLS - 5);
 
     if (new_enemy == NULL)
     {
-        return;// no hay espacio en memoria para anadir otro enemigo si eliminas enemigos entonces se vuelven a generar
+        return; // no hay espacio en memoria para anadir otro enemigo si eliminas enemigos entonces se vuelven a generar
     }
 
     new_enemy->direccion = rand() % 2;
     new_enemy->y = 6;
-    new_enemy->x = (rand() % (COLS - 5)) + 5;
+    if (x<=5) new_enemy->x = 7;
+    else new_enemy->x = x;
     new_enemy->vivo = 1;
     new_enemy->ch = Random_type();
     new_enemy->next = NULL;
@@ -325,6 +324,7 @@ void Delete_enemy(enemigo *delete)
         prev->next = current->next;
         free_memory(current, sizeof(enemigo)); // Liberar memoria usando free_memory()
     }
+
 }
 
 void free_enemys()
@@ -338,7 +338,6 @@ void free_enemys()
         free_memory(current, sizeof(enemigo)); // Liberar memoria usando free_memory()
         current = next;
     }
-
     enemy = NULL;
     lastEnemy = NULL;
 }
@@ -390,7 +389,7 @@ void initAudio()
         exit(1);
     }
 
-    sonido_Win = Mix_LoadWAV("arcade-game-winner.mp3");
+    sonido_Win = Mix_LoadMUS("arcade-game-winner.mp3");
 
     if (!sonido_Win)
     {
@@ -419,8 +418,8 @@ void clouseAudio()
     sonido_Fondo = NULL;
     sonido_colision = NULL;
     sonido_disparo = NULL;
-    // sonido_Win = NULL;
-    // sonido_gameOver = NULL;
+    sonido_Win = NULL;
+    sonido_gameOver = NULL;
     Mix_CloseAudio();
     SDL_Quit();
 }
@@ -492,7 +491,6 @@ void *INICIALIZAR()
 
     nave.y = LINES - 2;
     nave.x = COLS / 2;
-
     nave.ch = '^';
 
     // Enemigos
@@ -540,7 +538,6 @@ void *INICIALIZAR()
     attron(COLOR_PAIR(ALIEN_COLOR_1));
     move(3, (COLS / 2) - 50);
     addstr(" |_|  |_| \\__,_|  \\__| \\__| \\___/ |_|_|_|       |___| |_||_|  \\_/  \\__,_| /__/ |_| \\___/ |_||_| \n");
-
 
     move(0, COLS - 19);
     attron(COLOR_PAIR(ALIEN_COLOR_4));
@@ -603,8 +600,8 @@ void *MOVER_DISPAROS()
                 --Enemigos_Actuales;
                 move(current->py, current->px);
                 addch(' ');
-                refresh();
                 Delete_enemy(current);
+                refresh();
                 break;
             }
             current = current->next;

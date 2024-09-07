@@ -7,17 +7,6 @@ struct nave
     char ch;
 };
 
-typedef struct 
-{
-    int x;
-    int y;
-}Ship;
-
-
-
-
-
-
 struct disparo
 {
     int x,y;
