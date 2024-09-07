@@ -87,7 +87,8 @@ int main()
 
     while (win == -1)
     {
-        dispatch_semaphore_wait(sem_enemigo_disparo_bomba, DISPATCH_TIME_FOREVER);
+        // dispatch_semaphore_wait(sem_enemigo_disparo_bomba, DISPATCH_TIME_FOREVER);
+        sem_wait(&sem_enemigo_disparo_bomba);
 
         sprintf(tellscore, "%d", score);
         move(0, 10);
@@ -97,7 +98,8 @@ int main()
         move(nave.y, nave.x);
         addch(nave.ch);
 
-        dispatch_semaphore_signal(sem_enemigo_disparo_bomba);
+        // dispatch_semaphore_signal(sem_enemigo_disparo_bomba);
+        sem_post(&sem_enemigo_disparo_bomba);
 
         // Estas condicionales son para que el movimiento de estos objetos sea mas lento
 
@@ -283,9 +285,11 @@ void *Enemy_generator()
 {
     while (1)
     {
-        dispatch_semaphore_wait(sem_enemigo_disparo_bomba, DISPATCH_TIME_FOREVER);
+        // dispatch_semaphore_wait(sem_enemigo_disparo_bomba, DISPATCH_TIME_FOREVER);
+        sem_wait(&sem_enemigo_disparo_bomba);
         Create_enemys(5);
-        dispatch_semaphore_signal(sem_enemigo_disparo_bomba);
+        sem_post(&sem_enemigo_disparo_bomba);
+        // dispatch_semaphore_signal(sem_enemigo_disparo_bomba);
         sleep(3);
     }
 }
@@ -447,7 +451,8 @@ void *INICIALIZAR()
 {
     // inicializacion de semaforos
     initialize_memory();
-    sem_enemigo_disparo_bomba = dispatch_semaphore_create(1);
+    // sem_enemigo_disparo_bomba = dispatch_semaphore_create(1);
+    sem_init(&sem_enemigo_disparo_bomba, 0, 1);
 
     initscr();
     initAudio();
@@ -494,9 +499,11 @@ void *INICIALIZAR()
     enemigo *current = enemy;
     while (current != NULL)
     {
-        dispatch_semaphore_wait(sem_enemigo_disparo_bomba, DISPATCH_TIME_FOREVER);
+        // dispatch_semaphore_wait(sem_enemigo_disparo_bomba, DISPATCH_TIME_FOREVER);
+        sem_wait(&sem_enemigo_disparo_bomba);
         DrawEnemy(current);
-        dispatch_semaphore_signal(sem_enemigo_disparo_bomba);
+        sem_post(&sem_enemigo_disparo_bomba);
+        // dispatch_semaphore_signal(sem_enemigo_disparo_bomba);
         current = current->next;
     }
 
@@ -569,7 +576,8 @@ void *MOVER_DISPAROS()
         if (!disparo[i].activo)
             continue;
 
-        dispatch_semaphore_wait(sem_enemigo_disparo_bomba, DISPATCH_TIME_FOREVER);
+        // dispatch_semaphore_wait(sem_enemigo_disparo_bomba, DISPATCH_TIME_FOREVER);
+        sem_wait(&sem_enemigo_disparo_bomba);
 
         // Borrar el disparo en la posición anterior
         if (disparo[i].y < LINES - 2)
@@ -624,7 +632,8 @@ void *MOVER_DISPAROS()
             addch(' ');
         }
 
-        dispatch_semaphore_signal(sem_enemigo_disparo_bomba);
+        // dispatch_semaphore_signal(sem_enemigo_disparo_bomba);
+        sem_post(&sem_enemigo_disparo_bomba);
     }
 }
 
@@ -636,7 +645,8 @@ void *MOVER_BOMBAS()
         if (!bomba[i].activo)
             continue; // Saltar si la bomba no está activa
 
-        dispatch_semaphore_wait(sem_enemigo_disparo_bomba, DISPATCH_TIME_FOREVER);
+        // dispatch_semaphore_wait(sem_enemigo_disparo_bomba, DISPATCH_TIME_FOREVER);
+        sem_wait(&sem_enemigo_disparo_bomba);
 
         if (bomba[i].y < LINES - 1) // Si la bomba no ha tocado el suelo
         {
@@ -659,8 +669,8 @@ void *MOVER_BOMBAS()
             move(bomba[i].y - 1, bomba[i].x);
             addch(' ');
         }
-
-        dispatch_semaphore_signal(sem_enemigo_disparo_bomba);
+        sem_post(&sem_enemigo_disparo_bomba);
+        // dispatch_semaphore_signal(sem_enemigo_disparo_bomba);
     }
 }
 
@@ -671,7 +681,8 @@ void *MOVER_ENEMIGOS()
 
     while (current != NULL)
     {
-        dispatch_semaphore_wait(sem_enemigo_disparo_bomba, DISPATCH_TIME_FOREVER);
+        // dispatch_semaphore_wait(sem_enemigo_disparo_bomba, DISPATCH_TIME_FOREVER);
+        sem_wait(&sem_enemigo_disparo_bomba);
 
         if (current->vivo == 1)
         {
@@ -745,7 +756,8 @@ void *MOVER_ENEMIGOS()
                 current->direccion = 1;
             }
         }
-        dispatch_semaphore_signal(sem_enemigo_disparo_bomba);
+        // dispatch_semaphore_signal(sem_enemigo_disparo_bomba);
+        sem_post(&sem_enemigo_disparo_bomba);
         current = current->next;
         i++;
     }
@@ -811,7 +823,8 @@ void *VERIFICAR_END_GAME()
 
 void *VERIFICAR_ENTRADA_MOV_NAVE()
 {
-    dispatch_semaphore_wait(sem_enemigo_disparo_bomba, DISPATCH_TIME_FOREVER);
+    // dispatch_semaphore_wait(sem_enemigo_disparo_bomba, DISPATCH_TIME_FOREVER);
+    sem_wait(&sem_enemigo_disparo_bomba);
 
     if (input == KEY_LEFT && nave.x > 4)
     {
@@ -839,7 +852,8 @@ void *VERIFICAR_ENTRADA_MOV_NAVE()
         nave.y++;
     }
 
-    dispatch_semaphore_signal(sem_enemigo_disparo_bomba);
+    // dispatch_semaphore_signal(sem_enemigo_disparo_bomba);
+    sem_post(&sem_enemigo_disparo_bomba);
 }
 
 void *VERIFICAR_ENTRADA_DISPARAR()
