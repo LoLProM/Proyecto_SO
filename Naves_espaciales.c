@@ -36,7 +36,9 @@ int enemy_count = 0;
 
 // Definicion de semaforos para cuidar los puntos criticos
 
-static dispatch_semaphore_t sem_enemigo_disparo_bomba;
+// static dispatch_semaphore_t sem_enemigo_disparo_bomba;
+static sem_t sem_enemigo_disparo_bomba;
+
 
 // Definicion de varios hilos
 pthread_t mover_enemigo_thread, mover_disparo_thread, mover_bomba_thread;
