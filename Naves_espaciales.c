@@ -432,20 +432,20 @@ void playSoud_Game()
 }
 void playSoud_GameOver()
 {
-    Mix_PlayChannel(1, sonido_gameOver, 0);
+    Mix_PlayChannel(-1, sonido_gameOver, 0);
 }
 void playSoud_Win()
 {
-    Mix_PlayChannel(2, sonido_Win, 0);
+    Mix_PlayChannel(-1, sonido_Win, 0);
 }
 void playSoud_Shoot()
 {
-    Mix_PlayChannel(3, sonido_disparo, 0);
+    Mix_PlayChannel(-1, sonido_disparo, 0);
 }
 
 void playSoud_Impact()
 {
-    Mix_PlayChannel(4, sonido_colision, 0);
+    Mix_PlayChannel(-1, sonido_colision, 0);
 }
 
 //---------------------------------------------------------------------------------------------------------------------
