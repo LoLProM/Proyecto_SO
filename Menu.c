@@ -322,10 +322,6 @@ addstr("          -.,,_'__,,.-'\n");
     move(3, (COLS / 2) - 50);
     addstr(" |_|  |_| \\__,_|  \\__| \\__| \\___/ |_|_|_|       |___| |_||_|  \\_/  \\__,_| /__/ |_| \\___/ |_||_| \n");
 
-    move(0, 19);
-    attron(COLOR_PAIR(1));
-    addstr("X X X");
-
     move(0, COLS - 19);
     attron(COLOR_PAIR(4));
     addch('M');

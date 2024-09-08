@@ -78,7 +78,7 @@ void *VERIFICAR_ENTRADA_DISPARAR();
 void *VERIFICAR_ENTRADA_OTROS(struct options options, int *win);
 void *INICIALIZAR();
 void *Create_enemys();
-void *Enemy_generator();
+void *EnemyMaker();
 void free_enemys();
 void clouseAudio();
 void playSoud_Game();
@@ -241,7 +241,7 @@ void *first_fit_allocate(int size)
     return NULL; // No hay suficiente memoria
 }
 
-void Add_enemy2()
+void InsertEnemy()
 {
     enemigo *new_enemy = (enemigo *)first_fit_allocate(sizeof(enemigo));
     int x = rand() % (COLS - 5);
@@ -279,11 +279,11 @@ void *Create_enemys(int number_enemys)
     int n = number_enemys;
     for (int i = 0; i < n; i++)
     {
-        Add_enemy2();
+        InsertEnemy();
     }
 }
 
-void *Enemy_generator()
+void *EnemyMaker()
 {
     while (1)
     {
@@ -496,7 +496,7 @@ void *INICIALIZAR()
     // Enemigos
 
     // Implementacion de enemigos nueva
-    pthread_create(&creacion_enemigo, NULL, Enemy_generator, NULL);
+    pthread_create(&creacion_enemigo, NULL, EnemyMaker, NULL);
 
     enemigo *current = enemy;
     while (current != NULL)
@@ -785,19 +785,6 @@ void *VERIFICAR_END_GAME()
         if (bomba[i].y == nave.y && bomba[i].x == nave.x)
         {
             playSoud_GameOver();
-            naveVida -= 1;
-            if (naveVida == 2)
-            {
-                move(0, 27);
-                addch(' ');
-            }
-
-            if (naveVida == 1)
-            {
-                move(0, 23);
-                addch(' ');
-            }
-
             if (naveVida == 0)
             {
                 win = 0;
