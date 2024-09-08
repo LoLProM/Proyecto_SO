@@ -39,7 +39,6 @@ int enemy_count = 0;
 // static dispatch_semaphore_t sem_enemigo_disparo_bomba;
 static sem_t sem_enemigo_disparo_bomba;
 
-
 // Definicion de varios hilos
 pthread_t mover_enemigo_thread, mover_disparo_thread, mover_bomba_thread;
 pthread_t entrada_usuario_nave_thread, entrada_usuario_disparo_thread;
@@ -785,15 +784,12 @@ void *VERIFICAR_END_GAME()
         if (bomba[i].y == nave.y && bomba[i].x == nave.x)
         {
             playSoud_GameOver();
-            if (naveVida == 0)
-            {
-                win = 0;
-                pthread_cancel(creacion_enemigo);
-                pthread_cancel(mover_disparo_thread);
-                pthread_cancel(mover_bomba_thread);
-                pthread_cancel(mover_enemigo_thread);
-                break;
-            }
+            win = 0;
+            pthread_cancel(creacion_enemigo);
+            pthread_cancel(mover_disparo_thread);
+            pthread_cancel(mover_bomba_thread);
+            pthread_cancel(mover_enemigo_thread);
+            break;
         }
     }
 
